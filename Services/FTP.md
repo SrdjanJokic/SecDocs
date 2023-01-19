@@ -10,9 +10,14 @@ File Transfer Protocol (FTP) is a standard communications protocol to transfer c
 
 ### Misconfiguration (Anonymous Login)
 
+#### Conditions
+
+Admin enabled (or didn't disable) anonymous login
+
+#### How To
+
 ```shell
 $ sudo apt install ftp -y   # Fetch the latest version of FTP
-$ ftp -h                    # Display the help
 $ ftp {ip}                  # Connect to specified IP
 ```
 
