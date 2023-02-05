@@ -1,6 +1,6 @@
 # Telnet Service
 
-Common Ports: 23
+Common Ports: 23 TCP
 
 ## About
 

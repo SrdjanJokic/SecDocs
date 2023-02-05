@@ -1,6 +1,6 @@
 # FTP Service
 
-Common Ports: 21, 22 (if through SSH)
+Common Ports: 21 TCP, 22 TCP (if through SSH)
 
 ## About
 
