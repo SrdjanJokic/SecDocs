@@ -1,5 +1,20 @@
 import os
 
+class Node:
+	def __init__(self, name, link = None):
+		self.name = name
+		self.link = link
+		self.children = []
+
+	def print(self, indentation_lvl):
+		for lvl in range(0, indentation_lvl):
+			print('\t', end='')
+
+		if (self.link != None):
+			print(f"- ({self.name})[{self.link}]")
+		else:
+			print(f"- {self.name}")
+
 local_path_to_docs = '../Documents/'
 
 # Iterates through the path_to_docs dir and collects all subdir and file names
@@ -27,11 +42,17 @@ def assign_paths_to_file_names(paths):
 	for path in paths:
 		file_name = extract_file_name(path)
 		paths_with_files[file_name] = path
-	
-	return paths_with_files	
+
+	return paths_with_files
+
+def create_tree(paths):
+	root = Node("Root")
+	for path in paths:
+		print(path)
 
 if __name__ == "__main__":
 	paths = extract_raw_file_structure()
-	paths_with_files = assign_paths_to_file_names(paths)
-	print(paths_with_files)
-	
+	# print(paths)
+	# paths_with_files = assign_paths_to_file_names(paths)
+	# print(paths_with_files)
+	create_tree(paths)
