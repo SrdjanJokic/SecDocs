@@ -17,15 +17,30 @@ class Node:
 
 local_path_to_docs = '../Documents/'
 
+def print_tree(root):
+	queue = []
+	next = root
+	queue.append(next)
+
+	while(len(queue) != 0):
+		next = queue.pop(0)
+		next.print(0)
+
+		for child in next.children:
+			queue.append(child)
+
 def create_tree():
-	stack = []
-	stack.append(Node("Root"))
+	root = Node("Root")
+	queue = []
+	queue.append(root)
 	for path, subdirs, files in os.walk(local_path_to_docs): #pre-order traversal
-		print(f"{path}\n\t{subdirs}\n\t{files}")
+		# print(f"{path}\n\t{subdirs}\n\t{files}")
+		node = queue.pop(0)
 
 		for subdir in subdirs:
 			subdir_node = Node(subdir)
 			node.children.append(subdir_node)
+			queue.append(subdir_node)
 
 		for file in files:
 			file_path = os.path.join(path, file)
@@ -33,7 +48,7 @@ def create_tree():
 			file_node = Node(file_name, file_path)
 			node.children.append(file_node)
 
-		
+	return root
 
 # Extracts file name (without extension) from given path
 def extract_file_name(path):
@@ -42,4 +57,5 @@ def extract_file_name(path):
 	return file_name
 
 if __name__ == "__main__":
-	create_tree()
+	root = create_tree()
+	print_tree(root)
