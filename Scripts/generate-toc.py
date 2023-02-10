@@ -21,12 +21,11 @@ local_path_to_docs = '../Documents/'
 def create_tree():
 	root_node = Node("None")
 	for path, subdirs, files in os.walk(local_path_to_docs): #pre-order traversal
-		# print(f"{path}#{subdirs}#{files}")
+		print(f"{path}\n\t{subdirs}\n\t\t{files}")
 		for file in files:
 			file_path = os.path.join(path, file)
 			file_name = extract_file_name(file_path)
 			file_node = Node(file_name, file_path)
-			file_node.print(0)
 
 # Extracts file name (without extension) from given path
 def extract_file_name(path):
