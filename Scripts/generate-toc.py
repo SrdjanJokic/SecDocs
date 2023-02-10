@@ -45,10 +45,31 @@ def assign_paths_to_file_names(paths):
 
 	return paths_with_files
 
+def create_node_from_path(path):
+	path = path.replace(local_path_to_docs, "")
+	split = path.split("/", 2)
+
+	node = None
+	if(len(split) == 2):
+		node = Node(split[0])
+		node.print(1)
+		child = create_node_from_path(split[1])
+		node.children.append(child)
+	else:
+		node = Node(path)
+		node.print(1)
+
+	return node
+
 def create_tree(paths):
-	root = Node("Root")
+	root = Node(local_path_to_docs)
 	for path in paths:
-		print(path)
+		child = create_node_from_path(path)
+
+		if(child != None):
+			root.children.append(child)
+
+	root.print(0)
 
 if __name__ == "__main__":
 	paths = extract_raw_file_structure()
