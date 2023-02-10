@@ -17,15 +17,23 @@ class Node:
 
 local_path_to_docs = '../Documents/'
 
-# Iterates through the path_to_docs dir and collects all subdir and file names
 def create_tree():
-	root_node = Node("None")
+	stack = []
+	stack.append(Node("Root"))
 	for path, subdirs, files in os.walk(local_path_to_docs): #pre-order traversal
-		print(f"{path}\n\t{subdirs}\n\t\t{files}")
+		print(f"{path}\n\t{subdirs}\n\t{files}")
+
+		for subdir in subdirs:
+			subdir_node = Node(subdir)
+			node.children.append(subdir_node)
+
 		for file in files:
 			file_path = os.path.join(path, file)
 			file_name = extract_file_name(file_path)
 			file_node = Node(file_name, file_path)
+			node.children.append(file_node)
+
+		
 
 # Extracts file name (without extension) from given path
 def extract_file_name(path):
