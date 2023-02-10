@@ -18,17 +18,15 @@ class Node:
 local_path_to_docs = '../Documents/'
 
 # Iterates through the path_to_docs dir and collects all subdir and file names
-def extract_raw_file_structure():
-	paths = []
-	current_dir = os.path.dirname(os.path.abspath(__file__))
-	# path_to_docs = f"{current_dir}/{local_path_to_docs}"
-	path_to_docs = local_path_to_docs
-	for path, subdirs, files in os.walk(path_to_docs):
+def create_tree():
+	root_node = Node("None")
+	for path, subdirs, files in os.walk(local_path_to_docs): #pre-order traversal
+		# print(f"{path}#{subdirs}#{files}")
 		for file in files:
 			file_path = os.path.join(path, file)
-			paths.append(file_path)
-
-	return paths
+			file_name = extract_file_name(file_path)
+			file_node = Node(file_name, file_path)
+			file_node.print(0)
 
 # Extracts file name (without extension) from given path
 def extract_file_name(path):
@@ -36,44 +34,5 @@ def extract_file_name(path):
 	file_name = os.path.splitext(base_path)[0]
 	return file_name
 
-# Creates a dict of clean file names and their paths
-def assign_paths_to_file_names(paths):
-	paths_with_files = {}
-	for path in paths:
-		file_name = extract_file_name(path)
-		paths_with_files[file_name] = path
-
-	return paths_with_files
-
-def create_node_from_path(path):
-	path = path.replace(local_path_to_docs, "")
-	split = path.split("/", 2)
-
-	node = None
-	if(len(split) == 2):
-		node = Node(split[0])
-		node.print(1)
-		child = create_node_from_path(split[1])
-		node.children.append(child)
-	else:
-		node = Node(path)
-		node.print(1)
-
-	return node
-
-def create_tree(paths):
-	root = Node(local_path_to_docs)
-	for path in paths:
-		child = create_node_from_path(path)
-
-		if(child != None):
-			root.children.append(child)
-
-	root.print(0)
-
 if __name__ == "__main__":
-	paths = extract_raw_file_structure()
-	# print(paths)
-	# paths_with_files = assign_paths_to_file_names(paths)
-	# print(paths_with_files)
-	create_tree(paths)
+	create_tree()
