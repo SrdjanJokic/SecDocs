@@ -17,33 +17,44 @@ class Node:
 
 local_path_to_docs = '../Documents/'
 
+# Prints the given tree in pre-order format
 def print_tree(root):
 	stack = []
 	stack.append(root)
 
+	indent_lvl = 0
 	while (len(stack) != 0):
 		next = stack.pop()
 		while (next != None):
-			next.print(0)
+			next.print(indent_lvl)
+
 			for i in range (len(next.children) - 1, 0, -1):
 				stack.append(next.children[i])
+
 			if (len(next.children) == 0):
 				next = None
+				indent_lvl -= 1
 			else:
 				next = next.children[0]
+				indent_lvl += 1
 
+# Creates an m-tree from file system hierarchy
 def create_tree():
 	root = Node("Root")
 	stack = []
 	stack.append(root)
-	for path, subdirs, files in os.walk(local_path_to_docs): #pre-order traversal
+
+	# Traverses the file system in pre-order format
+	for path, subdirs, files in os.walk(local_path_to_docs):
 		node = stack.pop()
 
+		# Add all subdirectories as knots
 		for i in range (len(subdirs) - 1, -1, -1):
 			subdir_node = Node(subdirs[i])
 			node.children.append(subdir_node)
 			stack.append(subdir_node)
 
+		# Add all files as leaves
 		for file in files:
 			file_path = os.path.join(path, file)
 			file_name = extract_file_name(file_path)
