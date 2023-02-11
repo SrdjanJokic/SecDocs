@@ -18,29 +18,31 @@ class Node:
 local_path_to_docs = '../Documents/'
 
 def print_tree(root):
-	queue = []
-	next = root
-	queue.append(next)
+	stack = []
+	stack.append(root)
 
-	while(len(queue) != 0):
-		next = queue.pop(0)
-		next.print(0)
-
-		for child in next.children:
-			queue.append(child)
+	while (len(stack) != 0):
+		next = stack.pop()
+		while (next != None):
+			next.print(0)
+			for i in range (len(next.children) - 1, 0, -1):
+				stack.append(next.children[i])
+			if (len(next.children) == 0):
+				next = None
+			else:
+				next = next.children[0]
 
 def create_tree():
 	root = Node("Root")
-	queue = []
-	queue.append(root)
+	stack = []
+	stack.append(root)
 	for path, subdirs, files in os.walk(local_path_to_docs): #pre-order traversal
-		# print(f"{path}\n\t{subdirs}\n\t{files}")
-		node = queue.pop(0)
+		node = stack.pop()
 
-		for subdir in subdirs:
-			subdir_node = Node(subdir)
+		for i in range (len(subdirs) - 1, -1, -1):
+			subdir_node = Node(subdirs[i])
 			node.children.append(subdir_node)
-			queue.append(subdir_node)
+			stack.append(subdir_node)
 
 		for file in files:
 			file_path = os.path.join(path, file)
