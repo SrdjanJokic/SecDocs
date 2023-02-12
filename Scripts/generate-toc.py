@@ -22,7 +22,6 @@ class Tree:
 
 		# Traverses the file system in pre-order format
 		for path, subdirs, files in os.walk(init_path):
-			print(path)
 			node = stack.pop()
 
 			# Add all subdirectories as knots
@@ -33,7 +32,7 @@ class Tree:
 
 			# Add all files as leaves
 			for file in files:
-				file_path = os.path.join(path, file)
+				file_path = os.path.join(path, file).replace("..", "")
 				file_name = os.path.splitext(os.path.basename(file_path))[0]
 				file_node = Node(file_name, file_path)
 				node.children.append(file_node)
@@ -90,3 +89,8 @@ def update_tos(tos):
 if __name__ == "__main__":
 	file_tree = Tree(local_path_to_docs)
 	update_tos(str(file_tree))
+
+# Drawbacks (to be fixed in the future if need arises):
+# - Script must be run directly from /Scripts folder (fix by using __file__ somehow to check file location)
+# - Script must be kept as top-level entity in /Scripts folder (fix by editing "replace" around line 35 to detect README.md and calculate local path from there, or something similar..)
+
