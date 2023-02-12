@@ -22,6 +22,7 @@ class Tree:
 
 		# Traverses the file system in pre-order format
 		for path, subdirs, files in os.walk(init_path):
+			print(path)
 			node = stack.pop()
 
 			# Add all subdirectories as knots
@@ -78,10 +79,10 @@ def update_tos(tos):
 	with open(local_path_to_readme, 'r') as readme:
 		data = readme.read()
 
+	# Everything between TOC tags (including new lines)
 	pattern = regex_prefix + "((.|\n|\r)*)" + regex_suffix
 	new_tos = f"{regex_prefix}\n{tos}{regex_suffix}"
 	new_data = re.sub(pattern, new_tos, data)
-	print(new_data)
 
 	with open(local_path_to_readme, 'w') as readme:
 		readme.write(new_data)
