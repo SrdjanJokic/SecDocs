@@ -1,4 +1,5 @@
 import os
+import re
 
 class Node:
 	def __init__(self, name, link = None):
@@ -9,7 +10,7 @@ class Node:
 	# Adjusted for .md documents
 	def __str__(self):
 		if (self.link != None):
-			return f"- ({self.name})[{self.link}]"
+			return f"- [{self.name}]({self.link})"
 		else:
 			return f"- {self.name}"
 
@@ -68,8 +69,23 @@ class Tree:
 
 		return output
 
-local_path_to_docs = '../Documents/'
+local_path_to_docs = "../Documents/"
+local_path_to_readme = "../README.md"
+regex_prefix = "<!--START-TOC-->"
+regex_suffix = "<!--END-TOC-->"
+
+def update_tos(tos):
+	with open(local_path_to_readme, 'r') as readme:
+		data = readme.read()
+
+	pattern = regex_prefix + "((.|\n|\r)*)" + regex_suffix
+	new_tos = f"{regex_prefix}\n{tos}{regex_suffix}"
+	new_data = re.sub(pattern, new_tos, data)
+	print(new_data)
+
+	with open(local_path_to_readme, 'w') as readme:
+		readme.write(new_data)
 
 if __name__ == "__main__":
-	tree = Tree(local_path_to_docs)
-	print(tree)
+	file_tree = Tree(local_path_to_docs)
+	update_tos(str(file_tree))
