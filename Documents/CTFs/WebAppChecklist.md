@@ -21,7 +21,7 @@ These are the most obvious vulnerabilities found in easy CTF challenges. They ar
 
 The name says it all. Sometimes you'll encounter the flag right in the page source, or you might find a comment accidentally left by a developer (such as SSH Private Keys, admin logins etc.). To exploit, simply inspect page source of a desired page and look for any info that shouldn't be there.
 
-Hint: Sometimes although there is no secret data on this page, it might contain data that is never displayed. An example would be a value of users ID stored somewhere on the page, but never rendered. For example, if you were to find a value `ID = 144`, you could assume that to be the ID of the currently logged in user and attempt an IDOR attack.
+Hint: Sometimes although there is no secret data on this page, it might contain data that is never displayed. An example would be a value of users ID stored somewhere on the page, but never rendered. For example, if you were to find a value `ID = 21`, you could assume that to be the ID of the currently logged in user and attempt an IDOR attack.
 
 `Right Click -> Developer Tools -> View Page Source`
 
