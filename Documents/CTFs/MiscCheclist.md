@@ -30,6 +30,9 @@ pre_question_delimiter = b':\n\n'
 # Ending character on the question line. Here, it would be the equal in "2 + 2 - 1 ="
 question_suffix = b'='
 
+# Reads the final output until { is read; outputs the rest. Keep in mind that this skips over any words before it, so if the flag was in format CTF{fl4g_1s_h3r3} or something like that, words "CTF" will be omitted. It's probably easy to use something other than recvuntil to solve this...
+flag_prefix = b'{'
+
 def main():
     # Open a session on ip:port
     p = remote(machine_ip, machine_port)
@@ -51,8 +54,8 @@ def main():
         # Log for convenience
         log.info('Question {} -> {} = {}'.format(i, question.decode(), solution))
 
-    # Missing name{
-    write(p.recvuntil(b'{'))
+    # Receive flag start
+    write(p.recvuntil(flag_prefix)
     log.success(p.recvline())
 
 if __name__ == '__main__':
